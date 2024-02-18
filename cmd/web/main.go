@@ -12,15 +12,16 @@ import (
 )
 
 type application struct {
-	logger *slog.Logger
+	logger   *slog.Logger
 	snippets *models.SnippetModel
 }
+
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network adress")
 	dsn := flag.String("dsn", "web:ginner@/snippetbox?parseTime=true", "MySQL data source name")
 	flag.Parse()
 
-	logger:= slog.New(slog.NewTextHandler(os.Stdout, nil))
+	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 
 	db, err := openDB(*dsn)
 	if err != nil {
@@ -29,11 +30,10 @@ func main() {
 	}
 	defer db.Close()
 
-	app:= &application{
-		logger: logger,
-		snippets: &models.SnippetModel{DB:db},
+	app := &application{
+		logger:   logger,
+		snippets: &models.SnippetModel{DB: db},
 	}
-
 
 	logger.Info("Starting server", "addr", *addr)
 
